@@ -20,9 +20,9 @@
   "author": "Adriano Dennanni",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.19.0"
   },
   "devDependencies": {
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.6.3"
   }
 }

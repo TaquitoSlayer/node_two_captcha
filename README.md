@@ -15,7 +15,7 @@ Just run:
 npm install @infosimples/node_two_captcha
 ```
 
-JSDoc documentation can be found at https://infosimples.github.io/node_two_captcha/
+JSDoc documentation can be found at https://nikita.github.io/node_two_captcha
 
 ## Usage
 
@@ -23,24 +23,25 @@ JSDoc documentation can be found at https://infosimples.github.io/node_two_captc
 
 ```javascript
 // Import module
-const Client = require('@infosimples/node_two_captcha');
+const Client = require("@infosimples/node_two_captcha");
 
 // Declare your client
-client = new Client('your_2captcha_key', {
-                    timeout: 60000,
-                    polling: 5000,
-                    throwErrors: false});
+client = new Client("your_2captcha_key", {
+  timeout: 60000,
+  polling: 5000,
+  throwErrors: false
+});
 ```
 
 The first parameter of the `TwoCaptchaClient` constructor is your API key from
 2Captcha. The other parameters are:
 
--   `timeout`: Time (milliseconds) to wait before giving up on waiting for a
-    captcha solution.
--   `polling`: Time (milliseconds) between polls to 2captcha server. 2Captcha
-    documentation suggests this time to be at least 5 seconds, or you might get
-    blocked.
--   `throwErrors`: Whether the client should throw errors or just log the errors.
+- `timeout`: Time (milliseconds) to wait before giving up on waiting for a
+  captcha solution.
+- `polling`: Time (milliseconds) between polls to 2captcha server. 2Captcha
+  documentation suggests this time to be at least 5 seconds, or you might get
+  blocked.
+- `throwErrors`: Whether the client should throw errors or just log the errors.
 
 ### 2. Solve a captcha
 
@@ -58,20 +59,20 @@ client.decode({
 
 `decode` is an async function. Valid parameters for `decode` function are:
 
--   `base64`: An already base64-coded image.
--   `buffer`: A buffer object of a binary image.
--   `path`: The path for a system-stored image.
--   `url`: Url for a web-located image.
+- `base64`: An already base64-coded image.
+- `buffer`: A buffer object of a binary image.
+- `path`: The path for a system-stored image.
+- `url`: Url for a web-located image.
 
 The returned value will be a `Captcha` object. Its properties are:
 
--   `apiResponse`: Complete API response body for captcha request.
--   `id`: Captcha ID, as provided from 2Captcha.
--   `text`: Text from captcha.
--   `coordinates()`: If the captcha sent was a image, this function returns the
-    coordinates (X, Y) clicked.
--   `indexes()`: If the captcha sent was tile-like, this function returns the
-    indexes of the clicks on an array.
+- `apiResponse`: Complete API response body for captcha request.
+- `id`: Captcha ID, as provided from 2Captcha.
+- `text`: Text from captcha.
+- `coordinates()`: If the captcha sent was a image, this function returns the
+  coordinates (X, Y) clicked.
+- `indexes()`: If the captcha sent was tile-like, this function returns the
+  indexes of the clicks on an array.
 
 #### ReCaptcha v2
 
@@ -89,8 +90,31 @@ client.decodeRecaptchaV2({
 `decodeRecaptchaV2` is an async function. The parameters for `decodeRecaptchaV2`
 function are:
 
--   `googlekey`: The google key for the ReCaptcha.
--   `pageurl`: The URL where the ReCaptcha is.
+- `googlekey`: The google key for the ReCaptcha.
+- `pageurl`: The URL where the ReCaptcha is.
+
+#### ReCaptcha v3
+
+```javascript
+client.decodeRecaptchaV3({
+  action: "the_action_extracted from the page",
+  min_score: "0.3",
+  googlekey: 'the_key_extracted from the page',
+  pageurl: 'https://recaptcha-demo.appspot.com/recaptcha-v3-request-scores.php'
+}).then(function(response) {
+  console.log(response.text);
+});
+
+>jTfh3o9uqafa-u5RtYofHHo2uDk0T78f78HvttFGYft8pG3wuhd-UHAIy271bQXPeUNRm...
+```
+
+`decodeRecaptchaV3` is an async function. The parameters for `decodeRecaptchaV3`
+function are:
+
+- `action`: The site action you got from the source code
+- `min_score`: The minimum score you want for the ReCaptcha V3
+- `googlekey`: The google key for the ReCaptcha.
+- `pageurl`: The URL where the ReCaptcha is.
 
 ### 3. Retrieve a previously solved captcha
 
