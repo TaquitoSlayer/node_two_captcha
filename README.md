@@ -92,6 +92,8 @@ function are:
 
 - `googlekey`: The google key for the ReCaptcha.
 - `pageurl`: The URL where the ReCaptcha is.
+- `proxy`: Format: login:password@123.123.123.123:3128
+- `proxytype`: Type of your proxy: HTTP, HTTPS, SOCKS4, SOCKS5.
 
 #### ReCaptcha v3
 
