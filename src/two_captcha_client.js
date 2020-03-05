@@ -105,6 +105,8 @@ class TwoCaptchaClient {
    * @param  {Object} options           Parameters for the request
    * @param  {string} options.googlekey The google key from the ReCaptcha
    * @param  {string} options.pageurl   The URL where the ReCaptcha V2 is
+   * @param  {string} options.proxy     Format: login:password@123.123.123.123:3128
+   * @param  {string} options.proxytype Type of your proxy: HTTP, HTTPS, SOCKS4, SOCKS5.
    * @return {Promise<Captcha>}         Promise for a Captcha object
    */
   async decodeRecaptchaV2(options = {}) {
@@ -117,7 +119,9 @@ class TwoCaptchaClient {
     let upload_options = {
       method: "userrecaptcha",
       googlekey: options.googlekey,
-      pageurl: options.pageurl
+      pageurl: options.pageurl,
+      proxy: options.proxy,
+      proxytype: options.proxytype
     };
 
     let decodedCaptcha = await this._upload(upload_options);
