@@ -181,6 +181,49 @@ class TwoCaptchaClient {
     return decodedCaptcha;
   }
 
+
+  /**
+   * Sends a Geetest challenge and polls for its response
+   *
+   * @param  {Object} options              Parameters for the request
+   * @param  {string} options.gt           Static gt key
+   * @param  {string} options.pageurl      Page URL of target page
+   * @param  {string} options.challenge    Dynamic challenge value scraped from target page
+   * @param  {string} options.api_server   Full URL of the page where you see GeeTest captcha
+   * @return {Promise<Captcha>}            Promise for a geettest object
+   */
+  async decodeGeetest(options = {}) {
+    let startedAt = Date.now();
+
+    if (options.gt === "") this._throwError("Missing gt parameter");
+    if (options.challenge === "")
+      this._throwError("Missing challenge parameter");
+    if (options.pageurl === "") this._throwError("Missing pageurl parameter");
+
+    let upload_options = {
+      method: "geetest",
+      gt: options.gt,
+      pageurl: options.pageurl,
+      challenge: options.challenge,
+      api_server: options.api_server || ""
+    };
+
+    let decodedCaptcha = await this._upload(upload_options);
+
+    // Keep pooling untill the answer is ready
+    while (!decodedCaptcha.text) {
+      await this._sleep(Math.max(this.polling, 3)); // Sleep at least 3 seconds
+      if (Date.now() - startedAt > this.timeout) {
+        this._throwError("Captcha timeout");
+        return;
+      }
+      decodedCaptcha = await this.captcha(decodedCaptcha.id);
+    }
+
+    return decodedCaptcha;
+  }
+
+
   /**
    * @deprecated /load.php route is returning error 500
    * Get current load from 2Captcha service

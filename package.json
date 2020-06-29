@@ -1,6 +1,6 @@
 {
-  "name": "@kq00000000/node_two_captcha",
-  "version": "1.0.3",
+  "name": "@TaquitoSlayer/node_two_captcha",
+  "version": "1.0.4",
   "description": "Node.js package for easy integration with 2Captcha API (Captcha Solver as a Service)",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kq00000000/node_two_captcha"
+    "url": "https://github.com/TaquitoSlayer/node_two_captcha"
   },
   "keywords": [
     "api",
